@@ -1,0 +1,71 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Ball.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Main.gd" type="Script" id=3]
+[ext_resource path="res://HUD.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Enemy.tscn" type="PackedScene" id=5]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 24, 416 )
+
+[node name="Main" type="Node"]
+script = ExtResource( 3 )
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 50, 300 )
+
+[node name="Enemy" parent="." instance=ExtResource( 5 )]
+position = Vector2( 750, 300 )
+
+[node name="Walls" type="Node" parent="."]
+
+[node name="Left" type="StaticBody2D" parent="Walls"]
+position = Vector2( -35, 8 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Left"]
+position = Vector2( 11, 291 )
+shape = SubResource( 1 )
+
+[node name="Right" type="StaticBody2D" parent="Walls"]
+position = Vector2( 813, 0 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Right"]
+position = Vector2( 11, 291 )
+shape = SubResource( 1 )
+
+[node name="Down" type="StaticBody2D" parent="Walls"]
+position = Vector2( 590, 616 )
+rotation = 1.5708
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Down"]
+position = Vector2( 8, 176 )
+shape = SubResource( 1 )
+
+[node name="Up" type="StaticBody2D" parent="Walls"]
+position = Vector2( 576, -32 )
+rotation = 1.5708
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Up"]
+position = Vector2( 8, 176 )
+shape = SubResource( 1 )
+
+[node name="Ball" parent="." instance=ExtResource( 2 )]
+
+[node name="HUD" parent="." instance=ExtResource( 4 )]
+
+[connection signal="playerLost" from="Ball" to="." method="_on_Ball_playerLost"]
+[connection signal="playerWon" from="Ball" to="." method="_on_Ball_playerWon"]
+[connection signal="startGame" from="HUD" to="." method="_on_HUD_startGame"]
